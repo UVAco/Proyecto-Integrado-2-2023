@@ -1,0 +1,117 @@
+/* Estilo para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  /* Encabezado */
+  .header {
+    text-align: center;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 0;
+  }
+  
+  /* Título */
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* Formulario */
+  .form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Etiquetas y campos de entrada del formulario */
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  /* styles.css */
+/* ... Otros estilos ... */
+
+/* Estilo para los campos de entrada de usuario y contraseña */
+input[type="text"],
+input[type="password"] {
+  border: 2px solid rgb(3, 3, 3);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 10px;
+  outline: none; /* Elimina el borde de enfoque predeterminado */
+}
+
+/* ... Otros estilos ... */
+
+  
+  
+  /* Botón */
+  button {
+    background-color: #FF0000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background-color: #ffa500;
+  }
+  
+  /* Mensaje de error */
+  .error-message {
+    color: #d9534f;
+    margin-top: 10px;
+  }
+  
+  /* Pie de página */
+  .footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #007BFF;
+    color: #fff;
+  }
+  
+  /* Enlaces */
+  a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .alert {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  

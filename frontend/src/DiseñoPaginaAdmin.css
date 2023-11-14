@@ -1,0 +1,103 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    height: 600px;
+   
+  }
+  
+  /* Estilos para dispositivos grandes (mayor a 768px de ancho) */
+  .pagina-admin {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .logo{
+    background-image: url(https://web.udi.edu.co/aviacion/wp-content/uploads/2020/09/sSSSfffRecurso-1.png);
+    font-weight: bold;
+    font-size: 20px;
+    margin: 15px;
+    color: rgb(10, 4, 4);
+    height: 50px;
+    width: 100px;
+    background-size: 100px 50px;
+    align-items: center;
+  }
+  
+  .botones {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .botones button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .salir button {
+    background-color: #e74c3c;
+    margin-top: auto;
+  }
+  
+  .contenido {
+    flex: 2;
+    padding: 20px;
+    height: 600px;
+    width: 2000px;
+  }
+  .contenido h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #e75252; /* Color del texto */
+  }
+  
+  .contenido p {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #555; /* Color del texto */
+  }
+  
+  /* Estilos para dispositivos pequeños (menor o igual a 768px de ancho) */
+  @media (max-width: 768px) {
+    .pagina-admin {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      padding: 20px;
+    }
+  
+    .botones {
+      flex-direction: row;
+    }
+  
+    .botones button {
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+  }
+  
