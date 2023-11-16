@@ -10,6 +10,7 @@ const Appes = () => {
   const [textoAbierto, setTexto] = useState('');
   const [textoCerrado, setTexto2] = useState('');
   const [tipo, setTipo] = useState('');
+  const [idPregunta, setIdPregunta] = useState('');
 
   const handleSubmit1 = () => {
     setItems((prevItems) => [...prevItems, input]);
@@ -26,6 +27,8 @@ const Appes = () => {
     e.preventDefault();
     setTipo(tipoPregunta);};
 
+    
+    
 const handleCreatePregunta2 = async (tipoPregunta) => {
     let texto = '';
     if (tipoPregunta === 'abierta') {
@@ -45,12 +48,32 @@ const handleCreatePregunta2 = async (tipoPregunta) => {
     if (response.status === 200) {
       const data = await response.json();
       console.log(data);
+      const idPregunta = data.idPregunta;
+      console.log("id recibido",idPregunta);
+      setIdPregunta(idPregunta)
     } else {
       console.error('Datos incorrectos');
     }
-    // Lógica adicional que necesites para crear la pregunta en la BD
   };
-
+  
+  const handleCreateRespuestaCerrada = async () => {
+    console.log("respuesta" ,{input}, "idEnviado: " ,{idPregunta});
+      const response = await fetch('http://127.0.0.1:5010/usuario/insertaRespuestaPreguntaCerrada', {
+      method: 'POST',
+      body: JSON.stringify({input, idPregunta}),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      console.error('Datos incorrectos');
+    }
+    };
+    
   return (
     <div className="container">
       <div className="row">
@@ -101,10 +124,10 @@ const handleCreatePregunta2 = async (tipoPregunta) => {
             type="text"
             value={input}
             placeholder="Respuesta"
-            //respuesta de la pregunta cerrada onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
             className="controlatt"
           />
-          <button onClick={handleSubmit1}>crear</button>
+          <button onClick={() => {handleSubmit1(); handleCreateRespuestaCerrada();}}>crear</button>
         </div>
         <div className="w-100"></div>
         <div className="col">
