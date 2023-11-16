@@ -8,10 +8,11 @@ export default function App() {
   const [token, setToken] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+  const idEncuesta = '';
 
   const iniciarSesion = async (e) => {
     e.preventDefault();
-
+  
 
     const response = await fetch('http://127.0.0.1:5010/usuario/login', {
       method: 'POST',
@@ -26,7 +27,7 @@ export default function App() {
       setToken(data.token);
 
       if (data.rol === 'administrador') {
-       navigate(`/admin?user=${user}`);
+        navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}`);
       } else if (data.rol === 'estudiante') {
         navigate('/est');
       }

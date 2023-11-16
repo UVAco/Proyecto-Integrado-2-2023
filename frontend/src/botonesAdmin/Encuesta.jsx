@@ -1,32 +1,36 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CreateForm = () => {
   const queryparams = new URLSearchParams(useLocation().search);
-  const [title, setTitle] = useState('');
+  const [titulo, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const user = queryparams.get('user');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newTask = {
-      titulo: title,
+      titulo: titulo,
       descripcion: description,
       user: user,
     };
 
     try {
       const response = await axios.post('http://127.0.0.1:5010/usuario/insertarDatosEncuesta', newTask);
-      console.log("datosnewTask", response.data);
+      console.log('Solicitud a insertarDatosEncuesta:', response.data);
+
+      const idEncuesta = response.data.idEncuesta2;
+      navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}`);
+      // Datos de la encuesta insertados con éxito
       setTitle('');
       setDescription('');
       user('');
       alert('Encuesta creada con éxito');
     } catch (err) {
-      console.error(err.response.data);
-      alert('Error al crear la encuesta');
+      console.error("Error en la solicitud a insertarDatosEncuesta:", err.response.data ? err.response.data : 'No hay datos');
     }
   };
 
@@ -37,7 +41,7 @@ const CreateForm = () => {
         <label>Título:</label>
         <input
           type="text"
-          value={title}
+          value={titulo}
           onChange={(e) => setTitle(e.target.value)}
           required
         />
