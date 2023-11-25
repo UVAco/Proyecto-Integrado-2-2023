@@ -3,6 +3,7 @@ import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginaAdmin from './PaginaAdmin.jsx' 
 import PaginaEstudiante from './PaginaEstudiante.jsx'
+import FormEstudi from './Formulario.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -10,6 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/" element={<App />} />
       <Route path="/admin" element={<PaginaAdmin />} />
       <Route path="/est" element={<PaginaEstudiante />} />
+      <Route path="/from" element={<FormEstudi />} />
     </Routes>
   </BrowserRouter>,
 )

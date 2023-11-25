@@ -6,35 +6,153 @@ const datosAdministrador = async (req, res) => {
   const { user } = req.body;
   try {
     const [rows, fields] = await conn.promise().query('SELECT nombre, apellido, rol FROM usuario WHERE cedula = ?', [user]);
-    console.log('usuario:', { user });
     res.status(200).json({ rows });        
   } catch (error) {
-    console.error('Error en la consulta SQL de idPregunta:', error);
+    console.error('Error en la consulta SQL de datosAdministrador:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
+};
+
+const datosPreguntasAbiertas = async (req, res) => {
+  const estado = 'activado';
+
+  try {
+    const [encuestaRows] = await conn.promise().query('SELECT id FROM encuestas WHERE estado = ?', [estado]);
+    const idEncuesta = encuestaRows.length > 0 ? encuestaRows[0].id : null;
+
+    if (!idEncuesta) {
+      return res.status(404).json({ message: 'No hay encuesta activa' });
+    }
+
+    const tipo = 'abierta';
+    const [preguntasRows] = await conn.promise().query('SELECT id, texto FROM preguntas WHERE id_encuestas = ? AND tipo = ?', [idEncuesta, tipo]);
+    
+    const preguntasAbiertas = preguntasRows.map((row) => {
+      return {
+        id_pregunta: row.id,
+        pregunta: row.texto
+      };
+    });
+
+    res.status(200).json({ preguntasAbiertas });
+  } catch (error) {
+    console.error('Error en la consulta SQL de datos de datosPreguntasAbiertas:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
+};
+
+
+const datosPreguntas = async (req, res) => {
+  try {
+    const [rows, fields] = await conn.promise().query(`
+      SELECT p.texto as pregunta, ra.texto as respuesta
+      FROM preguntas p
+      LEFT JOIN respuestas_cerradas ra ON p.id = ra.id_preguntas
+    `);
+
+    res.status(200).json({ preguntas: rows });
+  } catch (error) {
+    console.error('Error en la consulta SQL de datoPreguntas:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
+};
+
+const datosEstudiantes = async (req, res) => {
+  const rol = 'estudiante';
+  try {
+    const [rows, fields] = await conn.promise().query('SELECT nombre, apellido, email, contraseña, fecha_nacimiento, cedula, genero, programa FROM usuario where rol = ?', [rol]);
+    res.status(200).json({ rows });        
+  } catch (error) {
+    console.error('Error en la consulta SQL de dato datosEstudiantes:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
+};
+
+const datosPreguntasCerradas = async (req, res) => {
+  const estado = 'activado';
+
+  try {
+    const [encuestaRows] = await conn.promise().query('SELECT id FROM encuestas WHERE estado = ?', [estado]);
+    const idEncuesta = encuestaRows.length > 0 ? encuestaRows[0].id : null;
+
+    if (!idEncuesta) {
+      return res.status(404).json({ message: 'No hay encuesta activa' });
+    }
+
+    const tipo = 'cerrada';
+    const [preguntasRows] = await conn.promise().query('SELECT id, texto FROM preguntas WHERE id_encuestas = ? AND tipo = ?', [idEncuesta, tipo]);
+    
+    const preguntasCerradas = await Promise.all(preguntasRows.map(async (row) => {
+      const idPregunta = row.id;
+      const [respuestasRows] = await conn.promise().query('SELECT texto FROM respuestas_cerradas WHERE id_preguntas = ?', [idPregunta]);
+      const respuestasCerradas = respuestasRows.map((respuestaRow) => respuestaRow.texto);
+
+      return {
+        id_pregunta: idPregunta,
+        pregunta: row.texto,
+        respuestas: respuestasCerradas,
+      };
+    }));
+
+    res.status(200).json({ preguntasCerradas });
+  } catch (error) {
+    console.error('Error en la consulta SQL de datos de datosPreguntasCerradas:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
+};
+
+const datosFormularios = async (req, res) => {
+  try {
+    const [rows, fields] = await conn.promise().query('SELECT id, titulo, descripcion FROM encuestas ' );
+    res.status(200).json({ rows });        
+  } catch (error) {
+    console.error('Error en la consulta SQL de datosFormularios:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
+};
+
+const datosFormulariosActivados = async (req, res) => {
+  const estado = 'activado';
+  try {
+    const [rows, fields] = await conn.promise().query('SELECT id, titulo, descripcion FROM encuestas where estado = ? ', [estado] );
+    res.status(200).json({ rows });        
+  } catch (error) {
+    console.error('Error en la consulta SQL de datosFormularios:', error);
     res.status(500).json({ message: 'Error en el servidor', error: error });
   }
 };
 
 const insertaRespuestaPreguntaCerrada = async (req, res) => {
   const { input, idPregunta} = req.body;
-  console.log('Datos recibidos:', { input, idPregunta});
-  const sql = 'INSERT INTO respuestas_abiertas (texto, id_preguntas) VALUES (?, ?)';
-  console.log('SQL:', sql);
+  const sql = 'INSERT INTO respuestas_cerradas (texto, id_preguntas) VALUES (?, ?)';
   conn.query(sql, [ input, idPregunta], async (err, result) => {        
   if (err) {
-    console.error('Error en la consulta SQL de datosPreguntasCerradas:', err);
+    console.error('Error el insertar datos SQL de insertaRespuestaPreguntaCerrada:', err);
     return res.status(500).json({ message: 'Error en el servidor', error: err });
   }
 });
+}; 
+
+const insertarDatosEstudiantes = async (req, res) => {
+  const rol = 'estudiante';
+  const { nombre, apellido, email, contraseña, nacimiento, cedula, genero, programa} = req.body;
+  try {
+    const [rows, fields] = await conn.promise().query(`INSERT INTO usuario (nombre, apellido, email, contraseña, rol, fecha_nacimiento, 
+    cedula, genero, programa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [nombre, apellido, email, contraseña, rol, nacimiento, cedula, genero, programa]);
+
+    res.status(200).json({ preguntas: rows });
+  } catch (error) {
+    console.error('Error al insertar datos de estudiantes:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error });
+  }
 };
 
 const insertarDatosPreguntas = async (req, res) => {
   const { texto, tipo, idEncuesta} = req.body;
-  console.log('Datos recibidos:', { texto, tipo});
   const sql = 'INSERT INTO preguntas (texto, id_encuestas, tipo) VALUES (?, ?, ?)';
-  console.log('SQL:', sql);
   conn.query(sql, [ texto, idEncuesta, tipo], async (err, result) => {        
   if (err) {
-    console.error('Error en la consulta SQL de datosPreguntasCerradas:', err);
+    console.error('Error al insertar datos de preguntas:', err);
     return res.status(500).json({ message: 'Error en el servidor', error: err });
   }
 
@@ -42,7 +160,6 @@ const insertarDatosPreguntas = async (req, res) => {
       
       try {
         const [rows, fields] = await conn.promise().query('SELECT id FROM preguntas WHERE texto = ?', [texto]);
-        console.log('Solicitud a idPregunta:', { idPregunta });
         res.status(200).json({ idPregunta });        
       } catch (error) {
         console.error('Error en la consulta SQL de idPregunta:', error);
@@ -53,24 +170,18 @@ const insertarDatosPreguntas = async (req, res) => {
 
 const insertarDatosEncuesta = async (req, res) => {
   const { titulo, descripcion, user} = req.body;
-  console.log('Datos recibidos:', { titulo, descripcion, user });
+  const estado = 'desactivado';
 
   try {
     const [rows, fields] = await conn.promise().query('SELECT id FROM usuario WHERE cedula = ?', [user]);
     const idUsuario = rows.length > 0 ? rows[0].id : null;
- 
-    console.log('Solicitud a insertarDatosEncuesta:', {
-      titulo,
-      descripcion,
-      userId: idUsuario, 
-    }); 
 
     if (!titulo || !descripcion || idUsuario === null) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
-    const sql = 'INSERT INTO encuestas (titulo, descripcion, id_usuario) VALUES (?, ?, ?)';
-    conn.query(sql, [titulo, descripcion, idUsuario], async (err, result) => {
+    const sql = 'INSERT INTO encuestas (titulo, descripcion, estado, id_usuario) VALUES (?, ?, ?, ?)';
+    conn.query(sql, [titulo, descripcion, estado, idUsuario], async (err, result) => {
       if (err) {
         console.error('Error en la consulta SQL:', err);
         return res.status(500).json({ message: 'Error en el servidor', error: err });
@@ -79,9 +190,8 @@ const insertarDatosEncuesta = async (req, res) => {
       const idEncuesta2 = result.insertId;
 
       try {
-        const [rows, fields] = await conn.promise().query('SELECT id FROM encuestas WHERE id = ?', [titulo]);
+        const [rows, fields] = await conn.promise().query('SELECT id FROM encuestas WHERE titulo = ?', [titulo]);
         res.status(200).json({ idEncuesta2 });
-        console.log('Solicitud a datosPreguntas:', { titulo, rows });
       } catch (error) {
         console.error('Error en la consulta SQL de datosPreguntas:', error);
         res.status(500).json({ message: 'Error en el servidor', error: error });
@@ -92,7 +202,6 @@ const insertarDatosEncuesta = async (req, res) => {
     return res.status(500).json({ message: 'Error en el servidor', error: error });
   }
 };
-
 
 const login = async (req, res) => {
     const { user, password } = req.body;
@@ -122,7 +231,64 @@ const login = async (req, res) => {
     };
   };
   
-  
+  const editarDatosEstudiantes = async (req, res) => {
+    const { nombre, apellido, email, contraseña, nacimiento, genero, programa, cedula} = req.body;
+    try {
+      const [rows, fields] = await conn.promise().query(`UPDATE usuario SET nombre= ?, apellido= ?, email= ?, contraseña= ?, fecha_nacimiento= ?, 
+      genero= ?, programa= ? where cedula= ?`, [nombre, apellido, email, contraseña, nacimiento, genero, programa, cedula]);
+      res.status(200).json({ preguntas: rows });
+    } catch (error) {
+      console.error('Error al editar datos de estudiantes:', error);
+      res.status(500).json({ message: 'Error en el servidor', error: error });
+    }
+  };
+
+  const editarEstadosFormulariosIndividuales = async (req, res) => {
+    const { id} = req.body;
+    const estado = 'desactivado';
+    try {
+      const [rows, fields] = await conn.promise().query(`UPDATE encuestas SET estado= ? where id= ?`, [estado, id]);
+      res.status(200).json({ preguntas: rows });
+    } catch (error) {
+      console.error('Error al editar estador de formularios individuales:', error);
+      res.status(500).json({ message: 'Error en el servidor', error: error });
+    }
+  };
+
+  const editarEstadosFormularios = async (req, res) => {
+    const estado = 'desactivado';
+    try {
+      const [rows, fields] = await conn.promise().query(`UPDATE encuestas SET estado= ? `, [estado]);
+      res.status(200).json({ preguntas: rows });
+    } catch (error) {
+      console.error('Error al editar estados de formularios:', error);
+      res.status(500).json({ message: 'Error en el servidor', error: error });
+    }
+  };
+
+  const editarEstadosFormulariosActivados = async (req, res) => {
+    const estado = 'activado';
+    const { id } = req.body;
+    try {
+      const [rows, fields] = await conn.promise().query(`UPDATE encuestas SET estado= ? where id = ?` , [estado, id]);
+      res.status(200).json({ preguntas: rows });
+    } catch (error) {
+      console.error('Error al editar estados de formularios activados:', error);
+      res.status(500).json({ message: 'Error en el servidor', error: error });
+    }
+  };
+
+  const eliminarEstudiantes = async (req, res) => {
+    const {cedula} = req.body;
+    try {
+      const [rows, fields] = await conn.promise().query(`DELETE FROM usuario WHERE cedula = ?`, [cedula]); 
+      res.status(200).json({ preguntas: rows });
+    } catch (error) {
+      console.error('Error al eliminar estudiantes:', error);
+      res.status(500).json({ message: 'Error en el servidor', error: error });
+    }
+    console.log('Datos recibidos:', { cedula});
+  };
   
 export const usuarioController = {
     login,
@@ -130,4 +296,16 @@ export const usuarioController = {
     insertarDatosPreguntas,
     insertarDatosEncuesta,
     insertaRespuestaPreguntaCerrada,
+    datosFormularios,
+    datosPreguntas,
+    insertarDatosEstudiantes,
+    datosEstudiantes,
+    editarDatosEstudiantes,
+    eliminarEstudiantes,
+    editarEstadosFormulariosIndividuales,
+    editarEstadosFormularios,
+    editarEstadosFormulariosActivados,
+    datosPreguntasCerradas,
+    datosPreguntasAbiertas,
+    datosFormulariosActivados
 }

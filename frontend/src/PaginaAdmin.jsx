@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import CreateUsuario from './botonesAdmin/CreateUsu.jsx';
+import OnOffFormulario from './botonesAdmin/ActivarForm.jsx';
 import Cambio from './botonesAdmin/CrearPregunta.jsx';
+import CambioPgn from './botonesAdmin/Usuarios.jsx';
 
 function PaginaAdmin() {
   const navigate = useNavigate();
@@ -78,8 +79,8 @@ function PaginaAdmin() {
         <div className="logo"></div>
         <div className="botones">
           <button onClick={onActiveForm}>Formularios</button>
-          <button onClick={onActiveEncu}>Editar Encuestas</button>
-          <button onClick={onActiveUse}>Mostrar Usuarios</button>
+          <button onClick={onActiveEncu}>Estado Formularios</button>
+          <button onClick={onActiveUse}>Usuarios</button>
           <button onClick={onActiveInfor}>Mostrar Informes</button>
           <button onClick={onActiveAler}>Mostrar Alertas</button>
         </div>
@@ -101,7 +102,8 @@ function PaginaAdmin() {
           </tr>
         </>
         {!activeForm || <Cambio />}
-        {!activeUsu || <CreateUsuario />}
+        {!activeUsu || <CambioPgn />}
+        {!activeEncu || <OnOffFormulario />}
       </div>
     </div>
   );

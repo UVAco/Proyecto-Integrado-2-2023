@@ -1,5 +1,7 @@
 .encuesta-estudiante {
     max-width: 600px;
+    min-height: 100vh;
+    max-height: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;

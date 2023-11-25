@@ -81,6 +81,19 @@ input[type="password"] {
   button:hover {
     background-color: #ffa500;
   }
+  .Activarbutton {
+    background-color: rgba(77, 172, 0, 0.89);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background-color: #ffbb00;
+  }
   
   /* Mensaje de error */
   .error-message {
@@ -154,3 +167,83 @@ input[type="password"] {
     max-width: 90%;
   }
   
+  .containere {
+    width: 60%;
+    background: #2ab4be;
+    margin: 20px auto;
+    overflow: auto;
+    padding: 25px;
+  }
+  .containercenter {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    text-align: -webkit-center;
+  }
+  .table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+    border-spacing: 40px 1px;
+}
+  h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: rgb(46, 226, 250);
+  }
+  
+  .description {
+    padding: 0;
+    margin-top: 5px;
+    color: #000;
+    text-align: center;
+    border-bottom: #fff dashed 1px;
+  }
+  
+  section {
+    min-height: 410px;
+  }
+  
+  .result h3 {
+    background: #c6db48;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  h3 {
+    color: #000;
+  }
+  
+  .sendInfo {
+    background: #f06226;
+    border: 0;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .containercenter {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    text-align: -webkit-center;
+  }
+  .table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+    border-spacing: 40px 1px;
+}
