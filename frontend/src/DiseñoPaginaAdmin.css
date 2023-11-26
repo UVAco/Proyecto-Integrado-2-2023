@@ -1,206 +1,205 @@
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-    height: 600px;
-   
-  }
-  
-  /* Estilos para dispositivos grandes (mayor a 768px de ancho) */
-  .pagina-admin {
-    display: flex;
-    max-width: 1200px;
-    width: 100%;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .logo{
-    background-image: url(https://web.udi.edu.co/aviacion/wp-content/uploads/2020/09/sSSSfffRecurso-1.png);
-    font-weight: bold;
-    font-size: 20px;
-    margin: 15px;
-    color: rgb(10, 4, 4);
-    height: 50px;
-    width: 100px;
-    background-size: 100px 50px;
-    align-items: center;
-  }
-  
-  .botones {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 20px;
-  }
-  
-  .botones button {
-    background-color: #555;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-  
-  .salir button {
-    background-color: #e74c3c;
-    margin-top: auto;
-  }
-  
-  .contenido {
-    flex: 2;
-    padding: 20px;
-    height: 600px;
-    width: 2000px;
-  }
-  .contenido h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #e75252; /* Color del texto */
-  }
-  
-  .contenido p {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #555; /* Color del texto */
-  }
-  
-  /* Estilos para dispositivos pequeños (menor o igual a 768px de ancho) */
-  @media (max-width: 768px) {
-    .pagina-admin {
-      flex-direction: column;
-    }
-  
-    .sidebar {
-      padding: 20px;
-    }
-  
-    .botones {
-      flex-direction: row;
-    }
-  
-    .botones button {
-      margin-right: 10px;
-      margin-bottom: 0;
-    }
-    .w-100 {
-      width: 100%!important;
-    }
-    .row {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-      margin-right: -15px;
-      margin-left: -15px;
-    }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  height: 600px;
+}
 
-    .col {
-      -ms-flex-preferred-size: 0;
-      flex-basis: 0;
-      -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-      flex-grow: 1;
-      max-width: 100%;
-    }
-    .card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      word-wrap: break-word;
-      background-color: #fff;
-      background-clip: border-box;
-      border: 1px solid rgba(0,0,0,.125);
-      border-radius: 0.25rem;
-  }
- .controlatt{
-  border: 2px solid rgb(3, 3, 3);
-  border-radius: 4px;
-  padding: 10px;
-  font-size: 1rem;
-  width: 90%;
+/* Estilos para dispositivos grandes (mayor a 768px de ancho) */
+.pagina-admin {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  background-image: url(https://web.udi.edu.co/aviacion/wp-content/uploads/2020/09/sSSSfffRecurso-1.png);
+  font-weight: bold;
+  font-size: 20px;
+  margin: 15px;
+  color: rgb(10, 4, 4);
+  height: 50px;
+  width: 100px;
+  background-size: 100px 50px;
+  align-items: center;
+}
+
+.botones {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
+}
+
+.botones button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
   margin-bottom: 10px;
-  outline: none;
- }
+  cursor: pointer;
+}
+
+.salir button {
+  background-color: #e74c3c;
+  margin-top: auto;
+}
+
+.contenido {
+  flex: 2;
+  padding: 20px;
+  height: 600px;
+  width: 2000px;
+}
+.contenido h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #e75252; /* Color del texto */
+}
+
+.contenido p {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #555; /* Color del texto */
+}
+
+/* Estilos para dispositivos pequeños (menor o igual a 768px de ancho) */
+@media (max-width: 768px) {
+  .pagina-admin {
+    flex-direction: column;
   }
-  .containere {
-    width: 60%;
-    background: #2ab4be;
-    margin: 20px auto;
-    overflow: auto;
-    padding: 25px;
-  }
-  
-  h1 {
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    color: rgb(46, 226, 250);
-  }
-  
-  .description {
-    padding: 0;
-    margin-top: 5px;
-    color: #000;
-    text-align: center;
-    border-bottom: #fff dashed 1px;
-  }
-  
-  section {
-    min-height: 410px;
-  }
-  
-  .result h3 {
-    background: #c6db48;
-    padding: 10px;
-    margin: 10px 0;
-  }
-  
-  h3 {
-    color: #000;
-  }
-  
-  .sendInfo {
-    background: #f06226;
-    border: 0;
-    color: #fff;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  .containercenter {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  .sidebar {
     padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    text-align: -webkit-center;
   }
-  .table {
-    display: table;
-    border-collapse: separate;
-    box-sizing: border-box;
-    text-indent: initial;
-    border-spacing: 2px;
-    border-color: gray;
-    border-spacing: 40px 1px;
+
+  .botones {
+    flex-direction: row;
+  }
+
+  .botones button {
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+  .w-100 {
+    width: 100% !important;
+  }
+  .row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  .col {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+  }
+  .controlatt {
+    border: 2px solid rgb(3, 3, 3);
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 90%;
+    margin-bottom: 10px;
+    outline: none;
+  }
+}
+.containere {
+  width: 60%;
+  background: #2ab4be;
+  margin: 20px auto;
+  overflow: auto;
+  padding: 25px;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  color: rgb(46, 226, 250);
+}
+
+.description {
+  padding: 0;
+  margin-top: 5px;
+  color: #000;
+  text-align: center;
+  border-bottom: #fff dashed 1px;
+}
+
+section {
+  min-height: 410px;
+}
+
+.result h3 {
+  background: #c6db48;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+h3 {
+  color: #000;
+}
+
+.sendInfo {
+  background: #f06226;
+  border: 0;
+  color: #fff;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.containercenter {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  text-align: -webkit-center;
+}
+.table {
+  display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-color: gray;
+  border-spacing: 40px 1px;
 }

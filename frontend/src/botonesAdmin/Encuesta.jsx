@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CreateForm = () => {
   const queryparams = new URLSearchParams(useLocation().search);
-  const [titulo, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const user = queryparams.get('user');
+  const [titulo, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const user = queryparams.get("user");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,18 +19,24 @@ const CreateForm = () => {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:5010/usuario/insertarDatosEncuesta', newTask);
-      console.log('Solicitud a insertarDatosEncuesta:', response.data);
+      const response = await axios.post(
+        "http://127.0.0.1:5010/usuario/insertarDatosEncuesta",
+        newTask
+      );
+      console.log("Solicitud a insertarDatosEncuesta:", response.data);
 
       const idEncuesta = response.data.idEncuesta2;
       navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}`);
       // Datos de la encuesta insertados con éxito
-      setTitle('');
-      setDescription('');
-      user('');
-      alert('Encuesta creada con éxito');
+      setTitle("");
+      setDescription("");
+      user("");
+      alert("Encuesta creada con éxito");
     } catch (err) {
-      console.error("Error en la solicitud a insertarDatosEncuesta:", err.response.data ? err.response.data : 'No hay datos');
+      console.error(
+        "Error en la solicitud a insertarDatosEncuesta:",
+        err.response.data ? err.response.data : "No hay datos"
+      );
     }
   };
 
