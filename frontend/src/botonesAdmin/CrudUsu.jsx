@@ -30,7 +30,7 @@ function UsuarioData() {
 
   const eliminarEstudiantes = async (cedula) => {
     try {
-      const response = await fetch(
+      await fetch(
         "http://127.0.0.1:5010/usuario/eliminarEstudiantes",
         {
           method: "DELETE",

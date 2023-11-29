@@ -40,6 +40,17 @@ body {
   background-size: 100px 50px;
   align-items: center;
 }
+.img{
+  background-image: url(https://previews.123rf.com/images/veronawinner/veronawinner2202/veronawinner220200034/183322634-icono-de-preguntas-y-respuestas-s%C3%ADmbolo-de-preguntas-frecuentes-se%C3%B1al-de-ayuda.jpg);
+  font-weight: bold;
+  font-size: 20px;
+  margin: 15px;
+  color: rgb(10, 4, 4);
+  height: 100px;
+  width: 100px;
+  background-size: 100px 100px;
+  align-items: center;
+}
 
 .botones {
   display: flex;
@@ -142,7 +153,7 @@ body {
 }
 .containere {
   width: 60%;
-  background: #2ab4be;
+  background: #dce4e4;
   margin: 20px auto;
   overflow: auto;
   padding: 25px;
@@ -156,6 +167,8 @@ h1 {
 }
 
 .description {
+  width: 800px;
+  height: 95px;
   padding: 0;
   margin-top: 5px;
   color: #000;
@@ -202,4 +215,14 @@ h3 {
   border-spacing: 2px;
   border-color: gray;
   border-spacing: 40px 1px;
+}
+
+.titulo{
+  border: 2px solid rgb(3, 3, 3);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  width: 80%;
+  margin-bottom: 10px;
+  outline: none;
 }

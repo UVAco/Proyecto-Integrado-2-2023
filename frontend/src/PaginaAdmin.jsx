@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import OnOffFormulario from "./botonesAdmin/ActivarForm.jsx";
 import Cambio from "./botonesAdmin/CrearPregunta.jsx";
 import CambioPgn from "./botonesAdmin/Usuarios.jsx";
+import CambioInfor from "./botonesAdmin/Infromae.jsx"
 
 function PaginaAdmin() {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ function PaginaAdmin() {
   const [activeEncu, setActiveEncu] = useState(false);
   const [activeUsu, setActiveUsu] = useState(false);
   const [activeInfor, setActiveInfor] = useState(false);
-  const [activeAler, setActiveAler] = useState(false);
   const [administradorData, setAdministradorData] = useState({
     nombre: "",
     apellido: "",
@@ -36,9 +36,6 @@ function PaginaAdmin() {
     setActiveUsu(!activeUsu);
   };
 
-  const onActiveAler = () => {
-    setActiveAler(!activeAler);
-  };
 
   useEffect(() => {
     fetchDataAdministrador();
@@ -86,8 +83,7 @@ function PaginaAdmin() {
           <button onClick={onActiveForm}>Formularios</button>
           <button onClick={onActiveEncu}>Estado Formularios</button>
           <button onClick={onActiveUse}>Usuarios</button>
-          <button onClick={onActiveInfor}>Mostrar Informes</button>
-          <button onClick={onActiveAler}>Mostrar Alertas</button>
+          <button onClick={onActiveInfor}>Informes</button>
         </div>
         <div className="salir">
           <button onClick={handleCerrarSesion}>Cerrar sesión</button>
@@ -109,6 +105,7 @@ function PaginaAdmin() {
         {!activeForm || <Cambio />}
         {!activeUsu || <CambioPgn />}
         {!activeEncu || <OnOffFormulario />}
+        {!activeInfor||<CambioInfor />}
       </div>
     </div>
   );

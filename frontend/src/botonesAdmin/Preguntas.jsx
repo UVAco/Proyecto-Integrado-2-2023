@@ -13,7 +13,6 @@ const Appes = () => {
   const [idPregunta, setIdPregunta] = useState("");
 
   const handleSubmit1 = () => {
-    // Verificar si el campo de respuesta no está vacío
     if (input.trim() === "") {
       alert("Por favor, ingrese algo en la respuesta.");
       return;
@@ -37,8 +36,6 @@ const Appes = () => {
 
   const handleCreatePregunta2 = async (tipoPregunta) => {
     let texto = "";
-
-    // Verificar si el campo de texto no está vacío
     if (tipoPregunta === "abierta" && textoAbierto.trim() === "") {
       alert("Por favor, ingrese algo en la pregunta abierta.");
       return;
@@ -73,6 +70,10 @@ const Appes = () => {
     } else {
       console.error("Datos incorrectos");
     }
+
+    if (tipoPregunta === "abierta") {
+      setTexto("");
+    }
   };
 
   const handleCreateRespuestaCerrada = async () => {
@@ -95,23 +96,29 @@ const Appes = () => {
     }
   };
 
+  const limpiar = () => {
+    setTexto2("");
+    setTexto("");
+  };
+
   return (
     <div className="container">
       <div className="row">
-        <div className="col">pregunta abierta</div>
-        <div className="col">pregunta cerrada</div>
+        <div className="col">PREGUNTA ABIERTA</div>
+        <div className="col">PREGUNTA CERRADA</div>
         <div className="w-100"></div>
         <div className="col">
           <input
             type="text"
             name="question1"
-            placeholder="pregunta"
+            placeholder="Pregunta"
             className="controlatt"
             onChange={(e) => {
               const valor = e.target.value;
               setTexto(valor);
               setTexto2(valor);
-            }}
+            }
+          }
           />
         </div>
         <div className="col1">
@@ -129,9 +136,10 @@ const Appes = () => {
         </div>
         <div className="w-100"></div>
         <div className="col">
-          <textarea />
+          <div className="img"/>
         </div>
         <div className="col">
+          <div className="container">
           <ul>
             {items.map((item, index) => (
               <li key={index}>
@@ -156,6 +164,7 @@ const Appes = () => {
           >
             crear
           </button>
+          </div>
         </div>
         <div className="w-100"></div>
         <div className="col">
@@ -163,6 +172,7 @@ const Appes = () => {
             onClick={(e) => {
               handleCreatePregunta("abierta", e);
               handleCreatePregunta2("abierta");
+              limpiar();
             }}
           >
             crear pregunta abierta
@@ -173,6 +183,7 @@ const Appes = () => {
             onClick={(e) => {
               handleCreatePregunta("cerrada", e);
               handleCreatePregunta2("cerrada");
+              limpiar();
             }}
           >
             crear pregunta cerrada

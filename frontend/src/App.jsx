@@ -9,6 +9,7 @@ export default function App() {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   const idEncuesta = "";
+  const idFormulario = "";
 
   const iniciarSesion = async (e) => {
     e.preventDefault();
@@ -26,7 +27,7 @@ export default function App() {
       setToken(data.token);
 
       if (data.rol === "administrador") {
-        navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}`);
+        navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}&Formulario=${idFormulario}`);
       } else if (data.rol === "estudiante") {
         navigate(`/est?user=${user}`);
       }
@@ -44,7 +45,7 @@ export default function App() {
         </div>
       )}
       <form>
-        <div>
+        <div><div className="logo"></div>
           <label htmlFor="user">Usuario:</label>
           <input
             type="text"

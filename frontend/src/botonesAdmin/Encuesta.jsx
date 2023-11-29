@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import  "../DiseñopaginaAdmin.css";
 
 const CreateForm = () => {
   const queryparams = new URLSearchParams(useLocation().search);
@@ -8,6 +9,7 @@ const CreateForm = () => {
   const [description, setDescription] = useState("");
   const user = queryparams.get("user");
   const navigate = useNavigate();
+  const idFormulario = queryparams.get("Formulario");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ const CreateForm = () => {
       console.log("Solicitud a insertarDatosEncuesta:", response.data);
 
       const idEncuesta = response.data.idEncuesta2;
-      navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}`);
+      navigate(`/admin?user=${user}&idEncuesta=${idEncuesta}&Formulario=${idFormulario}`);
       // Datos de la encuesta insertados con éxito
       setTitle("");
       setDescription("");
@@ -46,6 +48,7 @@ const CreateForm = () => {
       <form onSubmit={handleSubmit}>
         <label>Título:</label>
         <input
+          className="titulo"
           type="text"
           value={titulo}
           onChange={(e) => setTitle(e.target.value)}
@@ -53,7 +56,7 @@ const CreateForm = () => {
         />
 
         <label>Descripción:</label>
-        <textarea
+        <textarea className="description" 
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
