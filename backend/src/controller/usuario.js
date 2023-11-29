@@ -174,6 +174,172 @@ const datosFormularios = async (req, res) => {
   }
 };
 
+const idFormularios = async (req, res) => {
+  const { titulo } = req.query;
+  try {
+    const [rows, fields] = await conn
+      .promise()
+      .query("SELECT id FROM encuestas WHERE titulo = ?", [titulo]);
+    res.status(200).json({ rows });
+  } catch (error) {
+    console.error("Error en la consulta SQL de datosFormularios:", error);
+    res.status(500).json({ message: "Error en el servidor", error: error });
+  }
+};
+
+const datosEstudiantesFormulario = async (req, res) => {
+  try {
+    const [rows3, fields3] = await conn
+      .promise()
+      .query("SELECT id_usuario FROM usuario_respuestas_cerradas");
+    const id_usuario = rows3.map((row) => row.id_usuario);
+
+    const [rows2, fields2] = await conn
+      .promise()
+      .query("SELECT id_usuario FROM respuestas_abiertas");
+    const id_usuario2 = rows2.map((row) => row.id_usuario);
+
+    const allUserIds = [...id_usuario, ...id_usuario2];
+
+    if (allUserIds.length === 0) {
+      res.status(200).json({ rows: [] });
+      return;
+    }
+
+    const [rows, fields] = await conn
+      .promise()
+      .query(
+        "SELECT cedula, nombre, apellido, email FROM usuario WHERE id IN (?)",
+        [allUserIds]
+      );
+
+    res.status(200).json({ rows });
+  } catch (error) {
+    console.error("Error en la consulta SQL de datosFormularios:", error);
+    res.status(500).json({ message: "Error en el servidor", error });
+  }
+};
+
+const respuestaAbiertaEstudiante = async (req, res) => {
+  const rol = "estudiante";
+  try {
+    const [rows2, fields2] = await conn
+      .promise()
+      .query("SELECT id FROM usuario WHERE rol = ?", [rol]);
+    const id_usuario = rows2.length > 0 ? rows2[0].id : null;
+
+    const [rows, fields] = await conn
+      .promise()
+      .query("SELECT texto FROM respuestas_abiertas WHERE id_usuario = ?", [
+        id_usuario,
+      ]);
+
+    res.status(200).json({ rows });
+  } catch (error) {
+    console.error("Error en la consulta SQL de datosFormularios:", error);
+    res.status(500).json({ message: "Error en el servidor", error });
+  }
+};
+
+const datosPreguntasRespuestasCerradas = async (req, res) => {
+  const { id_encuestas } = req.query;
+  const tipo = "cerrada";
+  const { cedula } = req.query;
+
+  try {
+    const [rows5, fields5] = await conn
+      .promise()
+      .query("SELECT id FROM usuario where cedula =?  ", [cedula]);
+
+    if (rows5.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    const [rowsUsuarioRespuestasCerradas, fields4] = await conn
+      .promise()
+      .query(
+        "SELECT idRespuesta_cerrada FROM usuario_respuestas_cerradas WHERE id_usuario = ?",
+        [rows5[0].id]
+      );
+
+    const [rowscerrada1, fields3] = await conn
+      .promise()
+      .query(
+        "SELECT p.id AS id_pregunta, p.texto AS pregunta, r.id AS id_respuesta, r.texto AS respuesta FROM preguntas p LEFT JOIN respuestas_cerradas r ON p.id = r.id_preguntas WHERE p.id_encuestas = ? AND p.tipo = ?",
+        [id_encuestas, tipo]
+      );
+
+    const preguntas = rowscerrada1
+      .map((pregunta) => {
+        const respuesta = rowsUsuarioRespuestasCerradas.find(
+          (resp) => resp.idRespuesta_cerrada === pregunta.id_respuesta
+        );
+        return {
+          pregunta: pregunta.pregunta,
+          respuestaUsuario: respuesta ? pregunta.respuesta : null,
+        };
+      })
+      .filter((pregunta) => pregunta.respuestaUsuario !== null);
+
+    res.status(200).json({ preguntas });
+  } catch (error) {
+    console.error("Error en la consulta SQL de datosFormularios:", error);
+    res.status(500).json({ message: "Error en el servidor", error });
+  }
+};
+
+const datosPreguntasRespuestasAbiertas = async (req, res) => {
+  const { id_encuestas } = req.query;
+  const { cedula } = req.query;
+  const tipo = "abierta";
+
+  try {
+    const [rows4, fields4] = await conn
+      .promise()
+      .query("SELECT id FROM usuario where cedula =?  ", [cedula]);
+
+    if (rows4.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const id_usuario = rows4.map((row) => row.id);
+
+    const [rowsabiertas1, fields3] = await conn
+      .promise()
+      .query(
+        "SELECT id, texto FROM preguntas WHERE id_encuestas = ? AND tipo = ?",
+        [id_encuestas, tipo]
+      );
+
+    const preguntas = rowsabiertas1.map((pregunta) => ({
+      ...pregunta,
+      tipo: "abierta",
+      respuesta: null,
+    }));
+
+    const [rowsabiertas3, fields] = await conn
+      .promise()
+      .query(
+        "SELECT id_preguntas, texto FROM respuestas_abiertas WHERE id_usuario IN (?) AND id_preguntas IN (?) ",
+        [id_usuario, rowsabiertas1.map((pregunta) => pregunta.id)]
+      );
+
+    const respuestasAbiertas = rowsabiertas3.reduce((acc, respuesta) => {
+      const index = preguntas.findIndex(
+        (pregunta) => pregunta.id === respuesta.id_preguntas
+      );
+      if (index !== -1) {
+        preguntas[index].respuesta = respuesta.texto;
+      }
+      return preguntas;
+    }, []);
+
+    res.status(200).json({ preguntas, respuestasAbiertas });
+  } catch (error) {
+    console.error("Error en la consulta SQL de datosFormularios:", error);
+    res.status(500).json({ message: "Error en el servidor", error });
+  }
+};
+
 const datosFormulariosActivados = async (req, res) => {
   const estado = "activado";
   try {
@@ -536,4 +702,9 @@ export const usuarioController = {
   cedulaUsuarios,
   insertarRespuestaCerrada,
   insertarRespuestaAbierta,
+  datosEstudiantesFormulario,
+  respuestaAbiertaEstudiante,
+  idFormularios,
+  datosPreguntasRespuestasAbiertas,
+  datosPreguntasRespuestasCerradas,
 };

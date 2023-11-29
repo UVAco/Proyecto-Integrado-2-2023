@@ -37,6 +37,23 @@ router.get(
 );
 router.get("/emailUsuarios", usuarioController.emailUsuarios);
 router.get("/cedulaUsuarios", usuarioController.cedulaUsuarios);
+router.get(
+  "/datosEstudiantesFormulario",
+  usuarioController.datosEstudiantesFormulario
+);
+router.get(
+  "/respuestaAbiertaEstudiante",
+  usuarioController.respuestaAbiertaEstudiante
+);
+router.get("/idFormularios", usuarioController.idFormularios);
+router.get(
+  "/datosPreguntasRespuestasAbiertas",
+  usuarioController.datosPreguntasRespuestasAbiertas
+);
+router.get(
+  "/datosPreguntasRespuestasCerradas",
+  usuarioController.datosPreguntasRespuestasCerradas
+);
 
 router.put("/editarDatosEstudiantes", usuarioController.editarDatosEstudiantes);
 router.put(
